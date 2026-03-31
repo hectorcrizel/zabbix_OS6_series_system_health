@@ -10,7 +10,7 @@ zabbix_export:
       uuid: c9f6a70a8d7a469a92a2a0e67b2e8113
       template: 'Dell OS6 - System Health'
       name: 'Dell OS6 - System Health'
-      description: 'Template customizado e enxuto para switches Dell N-Series (OS6). Focado apenas em recursos vitais (CPU, Memória e Temperatura) by Hector Crizel - NapIT'
+      description: 'Template customizado e enxuto para switches Dell N-Series (OS6). Focado apenas em recursos vitais (CPU, Memória e Temperatura) by Hector Crizel'
       groups:
         -
           name: 'Templates/Network devices'
