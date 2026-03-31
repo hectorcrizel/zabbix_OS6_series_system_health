@@ -1,0 +1,92 @@
+zabbix_export:
+  version: '6.0'
+  date: '2026-03-31T00:00:00Z'
+  groups:
+    -
+      uuid: 8a4fa1498b814a799a4e21a24d08b982
+      name: 'Templates/Network devices'
+  templates:
+    -
+      uuid: c9f6a70a8d7a469a92a2a0e67b2e8113
+      template: 'Dell OS6 - System Health'
+      name: 'Dell OS6 - System Health'
+      description: 'Template customizado e enxuto para switches Dell N-Series (OS6). Focado apenas em recursos vitais (CPU, Memória e Temperatura) by Hector Crizel'
+      groups:
+        -
+          name: 'Templates/Network devices'
+      items:
+        -
+          uuid: 5d134c442345466c8913b8f2d6c703b9
+          name: 'CPU: Utilização'
+          type: SNMP_AGENT
+          snmp_oid: '.1.3.6.1.4.1.674.10895.5000.2.6132.1.1.1.1.4.4.0'
+          key: 'dell.os6.cpu.util'
+          delay: 1m
+          value_type: FLOAT
+          units: '%'
+          tags:
+            -
+              tag: component
+              value: cpu
+        -
+          uuid: e830c1d2e1324741b0b5e2a2298c56fa
+          name: 'Memória: Livre'
+          type: SNMP_AGENT
+          snmp_oid: '.1.3.6.1.4.1.674.10895.5000.2.6132.1.1.1.1.4.1.0'
+          key: 'dell.os6.mem.free'
+          delay: 1m
+          value_type: FLOAT
+          units: 'B'
+          preprocessing:
+            -
+              type: MULTIPLIER
+              parameters:
+                - '1024'
+          tags:
+            -
+              tag: component
+              value: memory
+        -
+          uuid: 1d4a6f88cb774a7eb8c8f49d32b57116
+          name: 'Memória: Total'
+          type: SNMP_AGENT
+          snmp_oid: '.1.3.6.1.4.1.674.10895.5000.2.6132.1.1.1.1.4.2.0'
+          key: 'dell.os6.mem.total'
+          delay: 1h
+          value_type: FLOAT
+          units: 'B'
+          preprocessing:
+            -
+              type: MULTIPLIER
+              parameters:
+                - '1024'
+          tags:
+            -
+              tag: component
+              value: memory
+        -
+          uuid: a44c92b23a1a4c9b9918a09f87216dc7
+          name: 'Memória: Utilização (%)'
+          type: CALCULATED
+          key: 'dell.os6.mem.util.pct'
+          delay: 1m
+          value_type: FLOAT
+          units: '%'
+          params: '100-(last(//dell.os6.mem.free)/last(//dell.os6.mem.total))*100'
+          tags:
+            -
+              tag: component
+              value: memory
+        -
+          uuid: b51f7b8e1f0e4b8da0d7a8d5f309d942
+          name: 'Temperatura: Sensor 1'
+          type: SNMP_AGENT
+          snmp_oid: '.1.3.6.1.4.1.674.10895.5000.2.6132.1.1.43.1.8.1.5.1.0'
+          key: 'dell.os6.temp.1'
+          delay: 3m
+          value_type: FLOAT
+          units: '°C'
+          tags:
+            -
+              tag: component
+              value: temperature
