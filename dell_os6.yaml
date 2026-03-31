@@ -10,7 +10,7 @@ zabbix_export:
       uuid: c9f6a70a8d7a469a92a2a0e67b2e8113
       template: 'Dell OS6 - System Health'
       name: 'Dell OS6 - System Health'
-      description: 'Template customizado e enxuto para switches Dell N-Series (OS6). Focado apenas em recursos vitais (CPU, Memória e Temperatura) by Hector Crizel'
+      description: 'Template customizado e enxuto para switches Dell N-Series (OS6). Focado apenas em recursos vitais (CPU, Memória e Temperatura) by Hector Crizel - NapIT'
       groups:
         -
           name: 'Templates/Network devices'
@@ -90,3 +90,32 @@ zabbix_export:
             -
               tag: component
               value: temperature
+  triggers:
+    -
+      uuid: b3b8c4d9a21542f5a8a1c9e832d7e5b1
+      expression: 'last(/Dell OS6 - System Health/dell.os6.cpu.util)>90'
+      name: 'CPU: Utilização muito alta (>90%)'
+      priority: HIGH
+      description: 'A carga da CPU ultrapassou 90%. Isso pode impactar o gerenciamento do switch.'
+    -
+      uuid: e5d2b9a7c8f441b993d5e8f4a1c6b2d3
+      expression: 'last(/Dell OS6 - System Health/dell.os6.mem.util.pct)>90'
+      name: 'Memória: Utilização muito alta (>90%)'
+      priority: HIGH
+      description: 'A utilização da memória RAM está acima de 90%.'
+    -
+      uuid: a1f4c2d9b5e848a287c3d1e9f4a5b6c7
+      expression: 'last(/Dell OS6 - System Health/dell.os6.temp.1)>60'
+      name: 'Temperatura: Nível Crítico (>60°C)'
+      priority: HIGH
+      description: 'A temperatura do sistema está em nível crítico. Risco de hardware.'
+    -
+      uuid: c8d5e1f2a3b445c6a9d7e8f9a1b2c3d4
+      expression: 'last(/Dell OS6 - System Health/dell.os6.temp.1)>50'
+      name: 'Temperatura: Nível de Alerta (>50°C)'
+      priority: WARNING
+      description: 'A temperatura do switch está acima do ideal.'
+      dependencies:
+        -
+          name: 'Temperatura: Nível Crítico (>60°C)'
+          expression: 'last(/Dell OS6 - System Health/dell.os6.temp.1)>60'
