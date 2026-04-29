@@ -16,3 +16,8 @@ A dedicated monitoring solution for Dell Networking OS6-series switches, focusin
 *   Zabbix
 *   SNMP
 *   Dell Networking MIBs
+
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
